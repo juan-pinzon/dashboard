@@ -21,5 +21,6 @@ export const environment = {
 		{
 			name: 'CURRENT_ACCOUNT',
 			alias: 'Cuenta actual'
-		},
+		}
+	]
 };
