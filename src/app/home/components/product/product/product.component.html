@@ -1,0 +1,76 @@
+<div class="card">
+  <header class="card-header">
+    <div class="card-header-icon">
+			<img src="https://via.placeholder.com/100x60?text=Account" alt="Account" *ngIf="!this.creditCard.isValid else credit" />
+			<ng-template #credit>
+				<img [src]="this.creditCard.icon" alt="this.creditCard.icon" #credit />
+			</ng-template>
+		</div>
+    <div class="card-header-title justify-flex-end">
+      <a href="">Ver detalles <i class="fas fa-chevron-right"></i></a>
+    </div>
+  </header>
+  <div class="card-content">
+    <div class="media-content">
+      <p class="title is-5">
+        {{ getTypeAccount(product.accountInformation.productType) }}
+      </p>
+      <p class="subtitle is-6" *ngIf="!this.creditCard.isValid else creditNum">
+        Nro. {{ product.accountInformation.accountIdentifier }}
+      </p>
+			<ng-template #creditNum>
+				<p class="subtitle is-6">
+					Nro. {{ this.creditCard.cardNumber }}
+				</p>
+			</ng-template>
+    </div>
+    <br />
+    <div class="content">
+      <div [ngSwitch]="product.typeAccount">
+        <div *ngSwitchCase="'DEPOSIT_ACCOUNT'">
+          Saldo disponible: <br />
+          <span class="is-size-5 has-text-weight-bold">
+            {{
+              product.productAccountBalances.saldo_disponible.amount | currency
+            }}
+          </span>
+        </div>
+        <div *ngSwitchCase="'CERTIFIED_DEPOSIT_TERM'">
+          Valor invertido <br />
+          <span class="is-size-5 has-text-weight-bold">
+            {{
+              product.productAccountBalances.valor_constitucion.amount +
+                product.productAccountBalances.intereses_causados.amount
+                | currency
+            }}
+          </span>
+        </div>
+        <div *ngSwitchCase="'CREDIT_CARD'">
+          Cupo disponible <br />
+          <span class="is-size-5 has-text-weight-bold">
+            {{
+              product.productAccountBalances.cupo_disponible_compras_pesos
+                .amount | currency
+            }}
+          </span>
+        </div>
+        <span class="is-size-5 has-text-weight-bold" *ngSwitchDefault>
+          No tiene saldo
+        </span>
+      </div>
+    </div>
+    <footer class="card-footer">
+			<div *ngIf="product.typeAccount == 'CREDIT_CARD'">
+				<div *ngIf="product.productAccountBalances.fecha_pago else creditFecha">
+					Fecha de pago: {{product.productAccountBalances.fecha_pago|date}}
+				</div>
+				<ng-template #creditFecha>
+					Capacidad 
+					<progress class="progress is-info is-small" [value]="product.capacity|number:'1.0-0'" max="100">
+						{{product.capacity|percent}}
+					</progress>
+				</ng-template>
+			</div>
+		</footer>
+  </div>
+</div>
