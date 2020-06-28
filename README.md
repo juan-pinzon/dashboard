@@ -1,8 +1,3 @@
-
-## Nota
-
-Por cuestiones de tiempo debido a trabajos de la universidad, no alcancé a hacer cosas como las pruebas unitarias o el tema responsive, agradezco la comprensión.
-
 # Dashboard
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 8.3.23.
